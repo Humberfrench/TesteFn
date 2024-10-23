@@ -111,16 +111,16 @@ namespace WebAtividadeEntrevista.Controllers
                 model = new ClienteModel()
                 {
                     Id = cliente.Id,
-                    Cpf = model.Cpf.TratarCpf(),
-                    CEP = model.CEP.TratarCep(),
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone.TratarTelefone()
+                    Cpf = cliente.Cpf.TratarCpf(),
+                    CEP = cliente.CEP.TratarCep(),
+                    Cidade = cliente.Cidade,
+                    Email = cliente.Email,
+                    Estado = cliente.Estado,
+                    Logradouro = cliente.Logradouro,
+                    Nacionalidade = cliente.Nacionalidade,
+                    Nome = cliente.Nome,
+                    Sobrenome = cliente.Sobrenome,
+                    Telefone = cliente.Telefone.TratarTelefone()
                 };
 
             

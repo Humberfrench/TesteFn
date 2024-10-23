@@ -1,5 +1,7 @@
-﻿
-$(document).ready(function () {
+﻿/// <reference path="fi.clientes.main.js" />
+
+$(document).ready(function ()
+{
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
@@ -10,6 +12,15 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
+        $('#formCadastro #Cpf').val(obj.Cpf);
+
+        var mascaraCpf = Cliente.MascaraCPF($('#formCadastro #Cpf').val());
+        var mascaraCep = Cliente.MascaraCEP($('#formCadastro #CEP').val());
+        var mascaraTelefone = Cliente.MascaraTelefone($('#formCadastro #Telefone').val());
+
+        $('#formCadastro #Cpf').val(mascaraCpf);
+        $('#formCadastro #CEP').val(mascaraCep);
+        $('#formCadastro #Telefone').val(mascaraTelefone);
     }
 
     $('#formCadastro').submit(function (e) {
@@ -21,6 +32,7 @@ $(document).ready(function () {
             data: {
                 "NOME": $(this).find("#Nome").val(),
                 "CEP": $(this).find("#CEP").val(),
+                "Cpf": $(this).find("#Cpf").val(),
                 "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
                 "Nacionalidade": $(this).find("#Nacionalidade").val(),

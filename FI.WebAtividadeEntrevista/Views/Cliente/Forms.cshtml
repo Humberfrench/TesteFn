@@ -73,7 +73,7 @@
         <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label for="Telefone">Telefone:</label>
-                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="Cliente.AplicarMascaraTelefone(event)">
+                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraTelefone(this.value)">
             </div>
         </div>
     </div>

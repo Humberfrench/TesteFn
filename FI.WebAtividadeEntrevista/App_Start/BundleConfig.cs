@@ -3,7 +3,7 @@ using System.Web.Optimization;
 
 namespace FI.WebAtividadeEntrevista
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
@@ -30,13 +30,15 @@ namespace FI.WebAtividadeEntrevista
                       "~/Scripts/jtable/localization/jquery.jtable.pt-BR.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
-                      "~/Scripts/Clientes/FI.Clientes.js"));
+                      "~/Scripts/Clientes/FI.Clientes.js",
+                      "~/Scripts/Clientes/FI.Clientes.Main.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
                       "~/Scripts/Clientes/FI.ListClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
-                      "~/Scripts/Clientes/FI.AltClientes.js"));
+                      "~/Scripts/Clientes/FI.AltClientes.js",
+                      "~/Scripts/Clientes/FI.Clientes.Main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
