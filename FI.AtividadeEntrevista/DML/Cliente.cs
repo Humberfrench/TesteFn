@@ -15,7 +15,12 @@ namespace FI.AtividadeEntrevista.DML
         /// Id
         /// </summary>
         public long Id { get; set; }
-        
+
+        /// <summary>
+        /// Cpf
+        /// </summary>
+        public string Cpf { get; set; }
+
         /// <summary>
         /// CEP
         /// </summary>

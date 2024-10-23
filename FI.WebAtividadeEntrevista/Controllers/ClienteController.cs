@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
+using FI.WebAtividadeEntrevista.Extensions;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -38,10 +39,16 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+                var existe = bo.VerificarExistencia(model.Cpf.TratarCpf());
+                if(existe)
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF ja Cadastrado na base, por favor verifique"));
+                }
                 model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
+                {
+                    Cpf = model.Cpf.TratarCpf(),
+                    CEP = model.CEP.TratarCep(),
                     Cidade = model.Cidade,
                     Email = model.Email,
                     Estado = model.Estado,
@@ -49,7 +56,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone.TratarTelefone()
                 });
 
            
@@ -76,7 +83,8 @@ namespace WebAtividadeEntrevista.Controllers
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
-                    CEP = model.CEP,
+                    Cpf = model.Cpf.TratarCpf(),
+                    CEP = model.CEP.TratarCep(),
                     Cidade = model.Cidade,
                     Email = model.Email,
                     Estado = model.Estado,
@@ -84,7 +92,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone.TratarTelefone()
                 });
                                
                 return Json("Cadastro alterado com sucesso");
@@ -103,15 +111,16 @@ namespace WebAtividadeEntrevista.Controllers
                 model = new ClienteModel()
                 {
                     Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
-                    Nome = cliente.Nome,
-                    Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Cpf = model.Cpf.TratarCpf(),
+                    CEP = model.CEP.TratarCep(),
+                    Cidade = model.Cidade,
+                    Email = model.Email,
+                    Estado = model.Estado,
+                    Logradouro = model.Logradouro,
+                    Nacionalidade = model.Nacionalidade,
+                    Nome = model.Nome,
+                    Sobrenome = model.Sobrenome,
+                    Telefone = model.Telefone.TratarTelefone()
                 };
 
             
@@ -146,5 +155,6 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
+       
     }
 }
