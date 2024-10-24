@@ -3,6 +3,7 @@
 $(document).ready(function ()
 {
     if (obj) {
+        $('#formCadastro #Id').val(obj.Id);
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
         $('#formCadastro #Email').val(obj.Email);
@@ -30,6 +31,7 @@ $(document).ready(function ()
             url: urlPost,
             method: "POST",
             data: {
+                "Id": $(this).find("#Id").val(),
                 "NOME": $(this).find("#Nome").val(),
                 "CEP": $(this).find("#CEP").val(),
                 "Cpf": $(this).find("#Cpf").val(),

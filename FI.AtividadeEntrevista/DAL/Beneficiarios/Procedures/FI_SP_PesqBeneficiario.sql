@@ -1,12 +1,11 @@
-﻿CREATE PROC FI_SP_PesqBenef
+﻿CREATE PROC FI_SP_PesqBeneficiario
+	@id BIGINT,
 	@iniciarEm int,
 	@quantidade int,
 	@campoOrdenacao varchar(200),
 	@crescente bit	
 AS
 BEGIN
-	--FI_SP_IncBeneficiario
-	--NOME, CPF, IDCLIENTE
 
 	DECLARE @SCRIPT NVARCHAR(MAX)
 	DECLARE @CAMPOS NVARCHAR(MAX)
@@ -25,7 +24,7 @@ BEGIN
 	SET @CAMPOS = '@iniciarEm int,@quantidade int'
 	SET @SCRIPT = 
 	'SELECT ID, NOME, CPF, IDCLIENTE FROM
-		(SELECT ROW_NUMBER() OVER (ORDER BY ' + @ORDER + ') AS Row, ID, NOME, CPF, IDCLIENTE FROM BENEFICIARIOS WITH(NOLOCK))
+		(SELECT ROW_NUMBER() OVER (ORDER BY ' + @ORDER + ') AS Row, ID, NOME, CPF, IDCLIENTE FROM BENEFICIARIOS WITH(NOLOCK) WHERE idCliente = @id)
 		AS ClientesWithRowNumbers
 	WHERE Row > @iniciarEm AND Row <= (@iniciarEm+@quantidade) ORDER BY'
 	

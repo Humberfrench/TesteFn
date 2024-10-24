@@ -57,10 +57,11 @@ namespace FI.AtividadeEntrevista.DAL
             return ds.Tables[0].Rows.Count > 0;
         }
 
-        internal List<Beneficiario> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
+        internal List<Beneficiario> Pesquisa(long id,int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
             List<SqlParameter> parametros = new List<SqlParameter>();
 
+            parametros.Add(new SqlParameter("id", id));
             parametros.Add(new SqlParameter("iniciarEm", iniciarEm));
             parametros.Add(new SqlParameter("quantidade", quantidade));
             parametros.Add(new SqlParameter("campoOrdenacao", campoOrdenacao));

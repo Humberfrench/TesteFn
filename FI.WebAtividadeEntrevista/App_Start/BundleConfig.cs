@@ -32,6 +32,7 @@ namespace FI.WebAtividadeEntrevista
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.Clientes.js",
                       "~/Scripts/Clientes/FI.Clientes.Main.js",
+                      "~/Scripts/Lib/Ajax.js",
                       "~/Scripts/Beneficiarios/FI.Beneficiarios.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
