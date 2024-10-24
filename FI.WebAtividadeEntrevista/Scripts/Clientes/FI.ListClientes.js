@@ -27,7 +27,7 @@ $(document).ready(function () {
                 Alterar: {
                     title: '',
                     display: function (data) {
-                        return '<button onclick="window.location.href=\'' + urlAlteracao + '/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
+                        return '<button onclick="window.location.href=\'' + urlAlteracao + '/' + data.record.Id + '\'" class="btn btn-primary btn-md">Alterar</button>';
                     }
                 }
             }
