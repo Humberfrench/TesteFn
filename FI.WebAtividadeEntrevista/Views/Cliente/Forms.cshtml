@@ -33,7 +33,7 @@
         <div class="col-3 col-lg-4">
             <div class="form-group">
                 <label for="CEP">CEP:</label>
-                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCEP(this.value)"/>
+                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCEP(this.value)" />
             </div>
         </div>
         <div class="col-3 col-lg-4">
@@ -81,7 +81,7 @@
     <div class="row">
         <div class="col-12 col-lg-12">
             <div class="pull-left">
-                <button type="button" class="btn btn-md btn-primary">Benefici&aacute;rios</button>
+                <button type="button" class="btn btn-md btn-primary" onclick="Beneficiarios.Open()">Benefici&aacute;rios</button>
             </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-md btn-success">Salvar</button>
@@ -90,5 +90,22 @@
         </div>
     </div>
     <br /><br /><br />
-
 </form>
+<!-- MODAL BENEFICIARIOS-->
+<div class="modal fade" id="modalBeneficiarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

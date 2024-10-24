@@ -31,14 +31,16 @@ namespace FI.WebAtividadeEntrevista
 
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.Clientes.js",
-                      "~/Scripts/Clientes/FI.Clientes.Main.js"));
+                      "~/Scripts/Clientes/FI.Clientes.Main.js",
+                      "~/Scripts/Beneficiarios/FI.Beneficiarios.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
                       "~/Scripts/Clientes/FI.ListClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
                       "~/Scripts/Clientes/FI.AltClientes.js",
-                      "~/Scripts/Clientes/FI.Clientes.Main.js"));
+                      "~/Scripts/Clientes/FI.Clientes.Main.js",
+                      "~/Scripts/Beneficiarios/FI.Beneficiarios.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
