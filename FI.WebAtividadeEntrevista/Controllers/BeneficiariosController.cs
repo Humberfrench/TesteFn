@@ -11,32 +11,21 @@ namespace FI.WebAtividadeEntrevista.Controllers
     {
 
         [HttpGet, Route("GetAll/{id}")]
-        public JsonResult BeneficiarioList(long id, int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+        public JsonResult BeneficiarioList(long id)
         {
             try
             {
-                int qtd = 0;
-                string campo = string.Empty;
-                string crescente = string.Empty;
-                string[] array = jtSorting.Split(' ');
-
-                if (array.Length > 0)
-                    campo = array[0];
-
-                if (array.Length > 1)
-                    crescente = array[1];
-
-                var beneficiarios = new BoBeneficiario().Pesquisa(id, jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+                var beneficiarios = new BoBeneficiario().Pesquisa(id);
 
                 //Return result to jTable
-                return Json(new { Result = "OK", Records = beneficiarios, TotalRecordCount = qtd });
+                return Json(new { Result = "OK", Records = beneficiarios }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { Result = "ERROR", Message = ex.Message });
+                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpGet, Route("Get/{id}/{id}")]
+        [HttpGet, Route("Get/{id}")]
         public JsonResult BeneficiarioObter(int id)
         {
             try
@@ -62,12 +51,12 @@ namespace FI.WebAtividadeEntrevista.Controllers
                 var bo = new BoBeneficiario();
                 var beneficiario = new Beneficiario
                 {
-                    Id = model.Id,
-                    Nome = model.Nome,
-                    Cpf = model.Cpf,
-                    IdCliente = model.IdCliente,
+                    Id = model.BeneficiarioId,
+                    Nome = model.NomeBeneficiario,
+                    Cpf = model.CpfBeneficiario,
+                    IdCliente = model.ClienteId,
                 };
-                if (model.Id == 0)
+                if (model.BeneficiarioId == 0)
                 {
                     id = bo.Incluir(beneficiario);
                     mensagem = "Registro incluso com sucesso.";
@@ -78,11 +67,11 @@ namespace FI.WebAtividadeEntrevista.Controllers
                     mensagem = "Registro alterado com sucesso.";
                 }
 
-                return Json(new { Result = "OK", Message = mensagem });
+                return Json(new { Result = "OK", Message = mensagem }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { Result = "ERROR", Message = ex.Message });
+                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -94,11 +83,11 @@ namespace FI.WebAtividadeEntrevista.Controllers
                 var bo = new BoBeneficiario();
                 bo.Excluir(id);
 
-                return Json(new { Result = "OK", Message = "Registro Excluido com sucesso" });
+                return Json(new { Result = "OK", Message = "Registro Excluido com sucesso" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { Result = "ERROR", Message = ex.Message });
+                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
         }

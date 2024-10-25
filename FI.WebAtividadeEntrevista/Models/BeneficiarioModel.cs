@@ -15,33 +15,36 @@ namespace FI.WebAtividadeEntrevista.Models
         }
         public BeneficiarioModel(long id, long idCliente,string nome, string cpf)
         {
-            Id = id;
-            IdCliente = idCliente;
-            Cpf = cpf;
-            Nome = nome;
+            BeneficiarioId = id;
+            ClienteId = idCliente;
+            CpfBeneficiario = cpf;
+            NomeBeneficiario = nome;
         }
         public BeneficiarioModel(Beneficiario beneficiario)
         {
-            Id = beneficiario.Id;
-            IdCliente = beneficiario.IdCliente;
-            Cpf = beneficiario.Cpf;
-            Nome = beneficiario.Nome;
+            BeneficiarioId = beneficiario.Id;
+            ClienteId = beneficiario.IdCliente;
+            CpfBeneficiario = beneficiario.Cpf;
+            NomeBeneficiario = beneficiario.Nome;
 
         }
-        public long Id { get; set; }
-        public long IdCliente { get; set; }
+        public long BeneficiarioId { get; set; }
+        public long ClienteId { get; set; }
 
         /// <summary>
         /// Cpf
         /// </summary>
         [Required]
-        public string Cpf { get; set; }
+        public string CpfBeneficiario { get; set; }
 
         /// <summary>
         /// Nome
         /// </summary>
         [Required]
-        public string Nome { get; set; }
+        public string NomeBeneficiario { get; set; }
+
+        public bool Ativo { get; set; }
+
 
     }
 }

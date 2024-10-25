@@ -1,4 +1,6 @@
-﻿
+﻿@using FI.WebAtividadeEntrevista.Models
+@model List<BeneficiarioModel>
+
 <form id="formCadastro" method="post">
     <div class="row">
         <div class="col-12 col-lg-4">
@@ -91,42 +93,6 @@
         </div>
     </div>
     <br /><br /><br />
+    @Html.Partial("Beneficiarios", Model)
 </form>
-<!-- MODAL BENEFICIARIOS-->
 
-<div class="modal fade" id="modalBeneficiarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Benefici&aacute;rios</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="Cpf">CPF:</label>
-                            <input required="required" type="text" class="form-control" id="CpfBeneficiario" name="CpfBeneficiario" placeholder="Ex.: 000.000.000-00" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCPF(this.value)" />
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="Nome">Nome:</label>
-                            <input type="hidden" id="IdBeneficiario" name="IdBeneficiario" />
-                            <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <br />&nbsp;
-                        <button type="button" class="btn btn-success">Incluir</button>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-</div>

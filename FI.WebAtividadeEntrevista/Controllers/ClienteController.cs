@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 using FI.WebAtividadeEntrevista.Extensions;
+using FI.WebAtividadeEntrevista.Models;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -20,7 +21,26 @@ namespace WebAtividadeEntrevista.Controllers
 
         public ActionResult Incluir()
         {
-            return View();
+            var model = new ClienteModel();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Route("VerificaCpf/{cpf}")]
+        public JsonResult VerificaCpf(string cpf)
+        {
+            BoCliente bo = new BoCliente();
+
+            var existe = bo.VerificarExistencia(cpf.TratarCpf());
+            if (existe)
+            {
+                return Json(new { Retorno = true, Message = "" });
+            }
+            else
+            {
+                return Json(new { Retorno = false, Message = "CPF ja Cadastrado na base, por favor verifique" });
+            }
         }
 
         [HttpPost]
@@ -102,8 +122,9 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpGet]
         public ActionResult Alterar(long id)
         {
-            BoCliente bo = new BoCliente();
-            Cliente cliente = bo.Consultar(id);
+            var bo = new BoCliente();
+            var bb = new BoBeneficiario();
+            var cliente = bo.Consultar(id);
             Models.ClienteModel model = null;
 
             if (cliente != null)
@@ -122,10 +143,14 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone.TratarTelefone()
                 };
-
             
             }
 
+            var beneficiarios = bb.Pesquisa(cliente.Id);
+            foreach (var item in beneficiarios)
+            {
+                model.Beneficiarios.Add(new BeneficiarioModel(item));
+            }
             return View(model);
         }
 

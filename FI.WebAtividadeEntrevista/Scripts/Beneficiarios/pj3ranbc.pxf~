@@ -1,0 +1,87 @@
+﻿/// <reference path="../lib/ajax.js" />
+/// <reference path="../clientes/fi.clientes.main.js" />
+var Beneficiarios = new Object();
+
+// Definindo a classe Beneficiario
+class Beneficiario
+{
+    constructor(beneficiarioId, clienteId, nome, cpf, ativo)
+    {
+        this.BeneficiarioId = beneficiarioId;
+        this.ClienteId = clienteId;
+        this.Nome = nome;
+        this.CPF = cpf;
+        this.Ativo = ativo;
+    }
+}
+
+// Criando um array para armazenar os beneficiários
+const beneficiarios = [];
+
+
+Beneficiarios.Open = function ()
+{
+    var id = $("#Id").val();
+    $("#modalBeneficiarios").modal('show');
+}
+
+Beneficiarios.Alterar = function (beneficiarioId, idCliente, nome, cpf)
+{
+    $("#IdBeneficiario").val(beneficiarioId);
+    $("#IdCliente").val(idCliente);
+    $("#Nome").val(nome);
+    $("#Cpf").val(cpf);
+    $("#botaoBeneficiarioGravar").text("Alterar");
+}
+
+Beneficiarios.AddBeneficiario = function (beneficiarioId, idCliente, nome, cpf, ativo)
+{
+    const novoBeneficiario = new Beneficiario(beneficiarioId, idCliente, nome, cpf, ativo);
+    beneficiarios.push(novoBeneficiario);
+}
+
+Beneficiarios.DelBeneficiario = function (beneficiarioId)
+{
+    const beneficiarioId = $("#IdBeneficiario").val();
+    const idCliente = $("#IdCliente").val();
+    const nome = $("#Nome").val();
+    const cpf = $("#Cpf").val();
+
+    const index = beneficiarios.findIndex(b => b.BeneficiarioId === beneficiarioId);
+    if (index !== -1)
+    {
+        beneficiarios.splice(index, 1); // Remove o beneficiário encontrado
+    }
+
+    //add de novo, mas como não ativo para remover da base.
+    const beneficiarioToDelete = new Beneficiario(beneficiarioId, idCliente, nome, cpf, 0);
+    beneficiarios.push(beneficiarioToDelete);
+
+    $('#gridBeneficiarios tbody tr[data-id="${beneficiarioId}"]').remove();
+
+}
+
+Beneficiarios.AlterarDados = function (beneficiarioId, idCliente, nome, cpf)
+{
+    const beneficiarioId = $("#IdBeneficiario").val();
+    const idCliente = $("#IdCliente").val();
+    const nome = $("#Nome").val();
+    const cpf = $("#Cpf").val();
+
+    const index = beneficiarios.findIndex(b => b.BeneficiarioId === beneficiarioId);
+    if (index !== -1)
+    {
+        beneficiarios.splice(index, 1); // Remove o beneficiário encontrado
+    }
+
+    const novoBeneficiario = new Beneficiario(beneficiarioId, idCliente, nome, cpf, ativo);
+    beneficiarios.push(novoBeneficiario);
+
+    $("#IdBeneficiario").val('');
+    $("#IdCliente").val('');
+    $("#Nome").val('');
+    $("#Cpf").val('');
+
+    $("#botaoBeneficiarioGravar").text("Incluir");
+
+}

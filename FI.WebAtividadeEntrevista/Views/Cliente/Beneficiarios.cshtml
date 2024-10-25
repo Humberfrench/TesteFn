@@ -1,0 +1,105 @@
+﻿@using FI.WebAtividadeEntrevista.Models
+@using System.Globalization
+@model List<BeneficiarioModel>
+@{
+    var clienteId = Model.Any() ? Model.First().ClienteId : 0;
+}
+
+<div class="modal fade" id="modalBeneficiarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Benefici&aacute;rios</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="Cpf">CPF:</label>
+                            <input required="required" type="text" class="form-control" id="CpfBeneficiario" name="CpfBeneficiario" placeholder="Ex.: 000.000.000-00" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCPF(this.value)" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Nome">Nome:</label>
+                            <input type="hidden" id="IdBeneficiario" name="IdBeneficiario" />
+                            <input type="hidden" id="IdCliente" name="IdCliente" value="@clienteId" />
+                            <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br />&nbsp;
+                        <button type="button" class="btn btn-outline-success" id="botaoBeneficiarioIncluir" onclick="Beneficiarios.Incluir()">Incluir</button>
+                        <button type="button" class="btn btn-outline-success" id="botaoBeneficiarioAlterar" onclick="Beneficiarios.Alterar()">Alterar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="Erro">
+                <div class="col-1">&nbsp;</div>
+                <div class="col-9">
+
+                    <div class="alert alert-danger" id="ErroText"></div>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-outline-success" id="botaoErro" onclick="Beneficiarios.ErroOk()">Ok</button>
+                </div>
+                <div class="col-1">&nbsp;</div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">&nbsp;</div>
+                <div class="col-10">
+                    <table id="gridBeneficiarios" class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <td style="width:30%"><b>Cpf</b></td>
+                                <td style="width:50%"><b>Nome</b></td>
+                                <td colspan="2"><b>A&ccedil;&otilde;es</b></td>
+                            </tr>
+                        </thead>
+                        <tbody id="beneficiariosBody">
+                            @foreach (var item in Model)
+                            {
+                                <tr data-id="@item.BeneficiarioId">
+                                    <td>@FormatCpf(item.CpfBeneficiario)</td>
+                                    <td>@item.NomeBeneficiario</td>
+                                    <td style="width:10%"><button type="button" class="btn btn-outline-success" onclick="Beneficiarios.AlterarDados('@item.BeneficiarioId','@item.ClienteId','@item.NomeBeneficiario','@item.CpfBeneficiario' )">Alterar</button></td>
+                                    <td style="width:10%"><button type="button" class="btn btn-outline-danger" onclick="Beneficiarios.DelBeneficiario('@item.BeneficiarioId')">Excluir</button></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-1">&nbsp;</div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    string FormatCpf(string cpf)
+    {
+        if (string.IsNullOrEmpty(cpf))
+            return cpf;
+
+        // Remove caracteres não numéricos
+        cpf = System.Text.RegularExpressions.Regex.Replace(cpf, @"[^\d]", "");
+
+        // Formata o CPF
+        if (cpf.Length == 11)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}-{3}",
+                cpf.Substring(0, 3),
+                cpf.Substring(3, 3),
+                cpf.Substring(6, 3),
+                cpf.Substring(9, 2));
+        }
+        return cpf; // Retorna sem formatação se não tiver 11 dígitos
+    }
+
+}

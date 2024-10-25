@@ -64,10 +64,10 @@ namespace FI.AtividadeEntrevista.BLL
         /// <summary>
         /// Lista os Beneficiarios
         /// </summary>
-        public List<Beneficiario> Pesquisa(int id, int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
+        public List<Beneficiario> Pesquisa(long id)
         {
             DaoBeneficiario beneficiario = new DaoBeneficiario();
-            return beneficiario.Pesquisa(id,iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
+            return beneficiario.Pesquisa(id);
         }
 
         /// <summary>
