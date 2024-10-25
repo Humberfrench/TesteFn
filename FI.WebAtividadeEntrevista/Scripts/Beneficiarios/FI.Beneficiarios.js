@@ -78,6 +78,8 @@ Beneficiarios.AddBeneficiario = function (beneficiarioId, idCliente, nome, cpf, 
 {
     const novoBeneficiario = new Beneficiario(beneficiarioId, idCliente, nome, cpf, ativo);
     Beneficiarios.Items.push(novoBeneficiario);
+
+    Beneficiario.AddLinhaTabela(novoBeneficiario);
 }
 
 Beneficiarios.DelBeneficiario = function (beneficiarioId)
@@ -120,13 +122,14 @@ Beneficiarios.Alterar = function ()
         Beneficiarios.Items.splice(index, 1); // Remove o beneficiário encontrado
     }
 
-    const novoBeneficiario = new Beneficiario(beneficiarioId, idCliente, nome, cpf, 1);
-    Beneficiarios.Items.push(novoBeneficiario);
-
     //remove da tabela
     $('#gridBeneficiarios tbody tr[data-id="${beneficiarioId}"]').remove();
 
+    const novoBeneficiario = new Beneficiario(beneficiarioId, idCliente, nome, cpf, 1);
+    Beneficiarios.Items.push(novoBeneficiario);
     //adiciona de novo
+    Beneficiario.AddLinhaTabela(novoBeneficiario);
+
 
 
     $("#IdBeneficiario").val('0');
