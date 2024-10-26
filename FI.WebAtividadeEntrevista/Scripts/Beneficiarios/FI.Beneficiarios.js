@@ -21,13 +21,12 @@ $(document).ready(function ()
 {
     for (item = 0; item < objBenef.length; item++)
     {
-        Beneficiarios.AddBeneficiario(objBenef[item].BeneficiarioId,
+        Beneficiarios.Items.push(new Beneficiario(objBenef[item].BeneficiarioId,
             objBenef[item].ClienteId,
             objBenef[item].NomeBeneficiario,
-            objBenef[item].CpfBeneficiario,
-            1);
+            objBenef[item].CpfBeneficiario, 1));
     }
-    $("#Erro").hide(); 
+    $("#Erro").hide();
 
 });
 
@@ -48,19 +47,19 @@ Beneficiarios.Incluir = function ()
     const nome = $("#NomeBeneficiario").val();
     const cpf = $("#CpfBeneficiario").val();
 
-    if(nome ==='')
+    if (nome === '')
     {
         Beneficiarios.Erro("O nome do beneficiário deve ser informado");
         return;
     }
-    if(cpf ==='')
+    if (cpf === '')
     {
         Beneficiarios.Erro("O CPF do beneficiário deve ser informado");
         return;
     }
 
     const cpfValido = Beneficiarios.ValidarCPF(cpf);
-    if(!cpfValido)
+    if (!cpfValido)
     {
         return;
     }
@@ -72,6 +71,7 @@ Beneficiarios.Incluir = function ()
     $("#NomeBeneficiario").val('');
     $("#CpfBeneficiario").val('');
     $("#botaoBeneficiarioGravar").text("Incluir");
+    Beneficiarios.ErroOk();
 }
 
 Beneficiarios.AddBeneficiario = function (beneficiarioId, idCliente, nome, cpf, ativo)
@@ -164,12 +164,15 @@ Beneficiarios.ValidarCPF = function (cpf)
 
     //
 
+
+    let cpfLimpo = cpf.replace(/[.-]/g, ''); // Remove '.' e '-'
+
     var opcoes = new Object;
-    opcoes.url = '/Cliente/VerificaCpf/' + cpf;
+    opcoes.url = '/Cliente/VerificaCpf/' + cpfLimpo;
     opcoes.callBackSuccess = function (response)
     {
         var dataObj = eval(response);
-        if (dataObj.Result !== false)
+        if (dataObj.Retorno !== false)
         {
             Beneficiarios.Erro(dataObj.Mensagem);
             return false;
@@ -179,7 +182,7 @@ Beneficiarios.ValidarCPF = function (cpf)
 
     opcoes.dadoEnvio = new Object;
 
-    Ajax.Post(opcoes);
+    Ajax.Get(opcoes);
 
     return true;
 
@@ -198,13 +201,13 @@ Beneficiario.AddLinhaTabela = function (beneficiario)
 
     // Cria as células da linha
     const celulaCpf = document.createElement('td');
-    celulaCpf.textContent = beneficiario.CPF;
+    celulaCpf.textContent = Cliente.MascaraCPF(beneficiario.CPF);
 
     const celulaNome = document.createElement('td');
     celulaNome.textContent = beneficiario.Nome;
 
     const celulaAcoes = document.createElement('td');
-    celulaAcoes.innerHTML = '<button type="button" class="btn btn-outline-success" onclick="Beneficiarios.AlterarDados("' + beneficiario.BeneficiarioId + 
+    celulaAcoes.innerHTML = '<button type="button" class="btn btn-outline-success" onclick="Beneficiarios.AlterarDados("' + beneficiario.BeneficiarioId +
         '","' + beneficiario.ClienteId + '","' + beneficiario.NomeBeneficiario + '","' + beneficiario.CpfBeneficiario + '" )" > Alterar</button>';
 
     const celulaAcoes2 = document.createElement('td');
@@ -218,5 +221,7 @@ Beneficiario.AddLinhaTabela = function (beneficiario)
 
     // Adiciona a nova linha ao corpo da tabela
     tbody.appendChild(novaLinha);
+
+    Beneficiarios.ErroOk();
 }
 

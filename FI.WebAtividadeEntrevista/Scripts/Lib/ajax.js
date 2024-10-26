@@ -24,10 +24,10 @@ Ajax.Execute = function (opcoes)
         contentType: 'application/json; charset=utf-8',
         async: async,
         success: callBackSuccess,
-        error: function (xhr, msg, e)
+        error: function (xhr, msg, error)
         {
             // stuff
-            Mensagens.Erro(e, "Erro");
+            alert(error);
         }
     });
 
@@ -42,11 +42,11 @@ Ajax.Get = function (opcoes)
     if (opcoes.dadoEnvio == undefined) dadoEnvio = '';
 
     $.get(url, dadoEnvio)
-    .done(callBackSuccess)
-    .fail(function (jqxhr, textStatus, error)
-    {
-        Mensagens.Erro(error, "Erro");
-    });
+        .done(callBackSuccess)
+        .fail(function (jqxhr, textStatus, error)
+        {
+            alert(error);
+        });
 }
 
 
@@ -59,9 +59,9 @@ Ajax.Post = function (opcoes)
     if (opcoes.dadoEnvio == undefined) dadoEnvio = '';
 
     $.post(url, dadoEnvio)
-    .done(callBackSuccess)
-    .fail(function (jqxhr, textStatus, error)
-    {
-        Mensagens.Erro(error, "Erro");
-    });
+        .done(callBackSuccess)
+        .fail(function (jqxhr, textStatus, error)
+        {
+            alert(error);
+        });
 }

@@ -3,6 +3,7 @@
     ViewBag.Title = "Clientes";
 }
 @section scripts{
+    @Styles.Render("~/Content/jtable")
     <script>
     var urlAlteracao = '@Url.Action("Alterar", "Cliente", new { area = "" })';
     var urlClienteList = '@Url.Action("ClienteList", "Cliente", new { area = "" })';

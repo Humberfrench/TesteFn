@@ -11,6 +11,7 @@ using FI.WebAtividadeEntrevista.Models;
 
 namespace WebAtividadeEntrevista.Controllers
 {
+    [RoutePrefix("Cliente")]
     public class ClienteController : Controller
     {
         public ActionResult Index()
@@ -26,28 +27,30 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Route("VerificaCpf/{cpf}")]
         public JsonResult VerificaCpf(string cpf)
         {
             BoCliente bo = new BoCliente();
 
             var existe = bo.VerificarExistencia(cpf.TratarCpf());
-            if (existe)
+            if (!existe)
             {
-                return Json(new { Retorno = true, Message = "" });
+                return Json(new { Retorno = true, Message = "" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { Retorno = false, Message = "CPF ja Cadastrado na base, por favor verifique" });
+                return Json(new { Retorno = false, Message = "CPF ja Cadastrado na base, por favor verifique" }, JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpPost]
+        [Route("Incluir")]
+
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -60,7 +63,7 @@ namespace WebAtividadeEntrevista.Controllers
             else
             {
                 var existe = bo.VerificarExistencia(model.Cpf.TratarCpf());
-                if(existe)
+                if (existe)
                 {
                     Response.StatusCode = 400;
                     return Json(string.Join(Environment.NewLine, "CPF ja Cadastrado na base, por favor verifique"));
@@ -79,16 +82,17 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone.TratarTelefone()
                 });
 
-           
-                return Json("Cadastro efetuado com sucesso");
+
+                return Json("Cadastro efetuado com sucesso", JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpPost]
+        [Route("Alterar")]
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-       
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -114,12 +118,13 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone.TratarTelefone()
                 });
-                               
-                return Json("Cadastro alterado com sucesso");
+
+                return Json("Cadastro alterado com sucesso", JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpGet]
+        [Route("Alterar/{id}")]
         public ActionResult Alterar(long id)
         {
             var bo = new BoCliente();
@@ -143,7 +148,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone.TratarTelefone()
                 };
-            
+
             }
 
             var beneficiarios = bb.Pesquisa(cliente.Id);
@@ -173,13 +178,13 @@ namespace WebAtividadeEntrevista.Controllers
                 List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
 
                 //Return result to jTable
-                return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
+                return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { Result = "ERROR", Message = ex.Message });
+                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
     }
 }
