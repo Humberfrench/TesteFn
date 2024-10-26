@@ -225,3 +225,13 @@ Beneficiario.AddLinhaTabela = function (beneficiario)
     Beneficiarios.ErroOk();
 }
 
+/*
+TODO : 
+- Validar a lista dos beneficiarios
+- no back, verificar quem é ativo == 0 e apagar
+- verificar quuem é id == 0 e inserir (verificar o cpg, e apagar e depois incluir, para entender a alteração)
+- fazer uma varredura basica de testes.
+- se der tempo case de testes
+com isso finish him!
+
+*/
