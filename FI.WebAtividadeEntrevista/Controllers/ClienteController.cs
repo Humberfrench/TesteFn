@@ -1,25 +1,25 @@
 ﻿using FI.AtividadeEntrevista.BLL;
-using WebAtividadeEntrevista.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 using FI.WebAtividadeEntrevista.Extensions;
 using FI.WebAtividadeEntrevista.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using WebAtividadeEntrevista.Models;
 
 namespace WebAtividadeEntrevista.Controllers
 {
     [RoutePrefix("Cliente")]
     public class ClienteController : Controller
     {
+        [Route("")]
         public ActionResult Index()
         {
             return View();
         }
 
-
+        [Route("Incluir")]
         public ActionResult Incluir()
         {
             var model = new ClienteModel();
@@ -46,10 +46,10 @@ namespace WebAtividadeEntrevista.Controllers
 
         [HttpPost]
         [Route("Incluir")]
-
         public JsonResult Incluir(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
+            var bo = new BoCliente();
+            var boBenef = new BoBeneficiario();
 
             if (!this.ModelState.IsValid)
             {
@@ -68,6 +68,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Response.StatusCode = 400;
                     return Json(string.Join(Environment.NewLine, "CPF ja Cadastrado na base, por favor verifique"));
                 }
+
+
                 model.Id = bo.Incluir(new Cliente()
                 {
                     Cpf = model.Cpf.TratarCpf(),
@@ -81,8 +83,21 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone.TratarTelefone()
                 });
+                if (model.Beneficiarios.Any())
+                {
+                    //incluir os Beneficiários.
+                    var beneficiarios = new List<Beneficiario>();
+                    model.Beneficiarios.ForEach(b =>
+                    {
+                        var benef = new Beneficiario(b.BeneficiarioId,
+                                                     model.Id,
+                                                     b.CpfBeneficiario,
+                                                     b.NomeBeneficiario);
+                        //incluir
+                        boBenef.Incluir(benef);
+                    });
 
-
+                }
                 return Json("Cadastro efetuado com sucesso", JsonRequestBehavior.AllowGet);
             }
         }
@@ -91,7 +106,8 @@ namespace WebAtividadeEntrevista.Controllers
         [Route("Alterar")]
         public JsonResult Alterar(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
+            var bo = new BoCliente();
+            var boBenef = new BoBeneficiario();
 
             if (!this.ModelState.IsValid)
             {
@@ -118,6 +134,35 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone.TratarTelefone()
                 });
+
+                if (model.Beneficiarios.Any())
+                {
+                    //incluir os Beneficiários.
+                    var beneficiarios = new List<Beneficiario>();
+                    //Não altero, quando é alterado simplesmente removo e incluo de novo
+                    //Remover
+                    model.Beneficiarios.Where(b => !b.Ativo).ToList().ForEach(b =>
+                    {
+                        var benef = new Beneficiario(b.BeneficiarioId,
+                                                     model.Id,
+                                                     b.CpfBeneficiario,
+                                                     b.NomeBeneficiario);
+                        //incluir
+                        boBenef.Incluir(benef);
+                    });
+
+                    //Adicionar
+                    model.Beneficiarios.Where(b => b.Ativo).ToList().ForEach(b =>
+                    {
+                        var benef = new Beneficiario(b.BeneficiarioId,
+                                                     model.Id,
+                                                     b.CpfBeneficiario,
+                                                     b.NomeBeneficiario);
+                        //incluir
+                        boBenef.Incluir(benef);
+                    });
+
+                }
 
                 return Json("Cadastro alterado com sucesso", JsonRequestBehavior.AllowGet);
             }
@@ -160,6 +205,7 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         [HttpPost]
+        [Route("List")]
         public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
         {
             try

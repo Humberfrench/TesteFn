@@ -25,6 +25,7 @@ namespace FI.WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
         [HttpGet, Route("Get/{id}")]
         public JsonResult BeneficiarioObter(int id)
         {
@@ -41,6 +42,7 @@ namespace FI.WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
+
         [HttpPost, Route("Gravar")]
         public JsonResult Gravar(BeneficiarioModel model)
         {
@@ -75,6 +77,7 @@ namespace FI.WebAtividadeEntrevista.Controllers
             }
 
         }
+
         [HttpPost, Route("Excluir/{id}")]
         public JsonResult Excluir(long id)
         {

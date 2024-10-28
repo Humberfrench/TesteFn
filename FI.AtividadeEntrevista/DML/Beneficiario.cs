@@ -10,7 +10,20 @@ namespace FI.AtividadeEntrevista.DML
     /// Classe de Beneficiario que representa o registo na tabela Beneficiario do Banco de Dados
     /// </summary>
     public class Beneficiario
+
     {
+        public Beneficiario()
+        {
+
+        }
+        public Beneficiario(long id, long clienteId, string cpf, string nome)
+        {
+            Id = id;
+            Nome = nome;
+            Cpf = cpf;
+            IdCliente = clienteId;
+        }
+
         /// <summary>
         /// Id
         /// </summary>
@@ -31,5 +44,5 @@ namespace FI.AtividadeEntrevista.DML
         /// </summary>
         public long IdCliente { get; set; }
 
-    }    
+    }
 }

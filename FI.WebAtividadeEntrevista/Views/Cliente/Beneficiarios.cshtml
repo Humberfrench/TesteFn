@@ -17,7 +17,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="Cpf">CPF:</label>
-                            <input required="required" type="text" class="form-control" id="CpfBeneficiario" name="CpfBeneficiario" placeholder="Ex.: 000.000.000-00" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCPF(this.value)" />
+                            <input type="text" class="form-control" id="CpfBeneficiario" name="CpfBeneficiario" placeholder="Ex.: 000.000.000-00" maxlength="15" onkeypress="return Cliente.SomenteNumeros(event);" oninput="this.value = Cliente.MascaraCPF(this.value)" />
                         </div>
                     </div>
                     <div class="col-6">
@@ -25,7 +25,7 @@
                             <label for="Nome">Nome:</label>
                             <input type="hidden" id="IdBeneficiario" name="IdBeneficiario" />
                             <input type="hidden" id="IdCliente" name="IdCliente" value="@clienteId" />
-                            <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
+                            <input type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
                         </div>
                     </div>
                     <div class="col-2">
